@@ -1,0 +1,7 @@
+# This is the master list for any queue backend generator: shoryuken_generator, sidekiq_generator, etc.
+# Values are `queue_as` strings or [string, relative_priority]
+# For shoryuken, that priority is a number of worker threads from the pool.
+:queues:
+  - [default, 15]
+  - [event, 7]
+  - [ingest, 3]

@@ -4,10 +4,10 @@ require 'rails/generators'
 class Sufia::ShoryukenGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
-  desc """
+  desc <<-END_OF_DESC
 Configuration for Amazon SQS queue processing via Shoryuken gem.
     Note: not intended for simultaneous use with Sidekiq, Resque, etc.
-       """
+  END_OF_DESC
 
   def shoryuken_gem
     gem 'shoryuken'
@@ -19,11 +19,17 @@ Configuration for Amazon SQS queue processing via Shoryuken gem.
   end
 
   def copy_shoryuken_yml
-    copy_file 'config/shoryuken.yml', 'config/shoryuken.yml'
+    @queues = queues
+    template 'config/shoryuken.yml', 'config/shoryuken.yml'
   end
 
   def copy_shoryuken_initializer
     copy_file 'config/000_shoryuken.rb', 'config/initializers/000_shoryuken.rb'
   end
 
+  private
+
+    def queues
+      YAML.load(ERB.new(IO.read(File.join(self.class.source_root, 'config', 'queues.yml'))).result)[:queues]
+    end
 end
