@@ -1,10 +1,16 @@
 <%= simple_form_for @form, html: { class: 'editor' } do |f| %>
   <div id="descriptions_display">
-    <h2 class="non lower">Descriptions <small class="pull-right"><span class="error">*</span> indicates required fields</small> </h2>
-    <% f.object.rendered_terms.each do |term| %>
-      <%= render_edit_field_partial term, f: f %>
-    <% end %>
+    <h2>Descriptions</h2>
+    <p class="required">* indicates required fields</p>
   </div>
+    <div class="base-terms">
+      <% f.object.primary_terms.each do |term| %>
+          <%= render_edit_field_partial(term, f: f) %>
+      <% end %>
+      <% f.object.rendered_terms.each do |term| %>
+          <%= render_edit_field_partial term, f: f %>
+      <% end %>
+    </div>
   <%= hidden_field_tag :type, params[:type] %>
   <% if params[:batch_document_ids].present? %>
     <% params[:batch_document_ids].each do |batch_item| %>

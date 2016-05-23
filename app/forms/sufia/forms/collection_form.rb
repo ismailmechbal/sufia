@@ -1,8 +1,14 @@
 module Sufia::Forms
   class CollectionForm < CurationConcerns::Forms::CollectionEditForm
+    self.required_fields = [:title]
+
+    # Fields that are required for Collections
+    def primary_terms
+      required_fields
+    end
+
     def rendered_terms
-      [:title,
-       :creator,
+      [:creator,
        :contributor,
        :description,
        :keyword,
